@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>My first three.js app</title>
+    <style>
+      body {
+        margin: 0;
+      }
+      canvas {
+        display: block;
+      }
+    </style>
+  </head>
+  <body>
+    <script src="js/three.js"></script>
+    <script>
+      // Our Javascript will go here.
+
+      var scene = new THREE.Scene();
+      var camera = new THREE.PerspectiveCamera(
+        75,
+        window.innerWidth / window.innerHeight,
+        0.1,
+        1000
+      );
+
+      var renderer = new THREE.WebGLRenderer();
+      renderer.setSize(window.innerWidth, window.innerHeight);
+
+      document.body.appendChild(renderer.domElement);
+
+      // CREATING OBJECTS
+
+      // Cube
+      var geometry = new THREE.BoxGeometry(); // Geomertry
+      var material = new THREE.MeshBasicMaterial({ color: 0x00ff00 }); // Cube Material
+
+      // Final Object based on geometry data and material styles
+      var cube = new THREE.Mesh(geometry, material);
+
+      // Adding Objects to the scene
+      scene.add(cube);
+
+      // Move the camara so we can see other objects
+      camera.position.z = 5;
+
+      // Infinite loop allows to control our scene
+      function animate() {
+        // RequestAnimationFrame allos to pause the infinite loop when
+        // changing tabs avoiding waisting cpu and batery life
+        // It's called 60 times per second
+        requestAnimationFrame(animate);
+
+        // Using a renderer to render a <canvas> element to the dom
+        // We need Scene to be render and a camara to see the current scene
+        renderer.render(scene, camera);
+
+        cube.rotation.x += 0.01;
+        cube.rotation.y += 0.01;
+      }
+
+      // Instantiate just one time this function
+      animate();
+    </script>
+  </body>
+</html>
