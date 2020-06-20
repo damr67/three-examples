@@ -16,52 +16,65 @@
     <script src="js/WebGL.js"></script>
     <script src="js/three.js"></script>
     <script>
-      // Our Javascript will go here.
+      function makeInstance(geometry, color, x) {
+        const material = new THREE.MeshPhongMaterial({ color });
 
-      // Inital Setup
-      var scene = new THREE.Scene();
-      var camera = new THREE.PerspectiveCamera(
-        75,
+        const cube = new THREE.Mesh(geometry, material);
+        scene.add(cube);
+
+        cube.position.x = x;
+
+        return cube;
+      }
+
+      const scene = new THREE.Scene();
+      const camera = new THREE.PerspectiveCamera(
+        45,
         window.innerWidth / window.innerHeight,
         0.1,
         1000
       );
+      camera.position.set(0, 0, 5);
 
-      // Renderer allows to render our scenes, objects in it and camera
-      // Renders to a canvas element -> <canvas>
-      var renderer = new THREE.WebGLRenderer();
+      const renderer = new THREE.WebGLRenderer();
       renderer.setSize(window.innerWidth, window.innerHeight);
       document.body.appendChild(renderer.domElement);
 
-      // CREATING OBJECTS
+      const geometry = new THREE.BoxGeometry();
+      const cubes = [
+        makeInstance(geometry, 0x44aa88, 0),
+        makeInstance(geometry, 0x8844aa, -2),
+        makeInstance(geometry, 0xaa8844, 2)
+      ];
 
-      // Cube
-      var geometry = new THREE.BoxGeometry(); // Geomertry
-      var material = new THREE.MeshBasicMaterial({ color: 0x00ff00 }); // Cube Material
+      //create a blue LineBasicMaterial
+      const points = [];
+      points.push(new THREE.Vector3(-10, 0, 0));
+      points.push(new THREE.Vector3(0, 10, 0));
+      points.push(new THREE.Vector3(10, 0, 0));
 
-      // Final Object based on geometry data and material styles
-      var cube = new THREE.Mesh(geometry, material);
+      const LineGeo = new THREE.BufferGeometry().setFromPoints(points);
 
-      // Adding Objects to the scene
-      scene.add(cube);
+      const LineMaterial = new THREE.LineBasicMaterial({ color: 0x0000ff });
 
-      // Move the camara so we can see other objects
-      camera.position.z = 5;
+      const Line = new THREE.Line(LineGeo, LineMaterial);
+      scene.add(Line);
 
-      // Infinite loop allows to control our scene
-      function animate() {
-        // RequestAnimationFrame allos to pause the infinite loop when
-        // changing tabs avoiding waisting cpu and batery life
-        // It's called 60 times per second
+      const color = 0xffffff;
+      const intensity = 1;
+      const light = new THREE.DirectionalLight(color, intensity);
+      light.position.set(-1, 2, 4);
+      scene.add(light);
+
+      const animate = function () {
         requestAnimationFrame(animate);
 
-        // Using a renderer to render a <canvas> element to the dom
-        // We need Scene to be render and a camara to see the current scene
+        cubes.forEach((cube, ndx) => {
+          cube.rotation.x += 0.05;
+          cube.rotation.y += 0.05;
+        });
         renderer.render(scene, camera);
-
-        cube.rotation.x += 0.01;
-        cube.rotation.y += 0.01;
-      }
+      };
 
       animate();
     </script>

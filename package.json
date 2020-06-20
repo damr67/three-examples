@@ -1,0 +1,22 @@
+{
+  "name": "three-js-examples",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/damr67/three-examples.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/damr67/three-examples/issues"
+  },
+  "homepage": "https://github.com/damr67/three-examples#readme",
+  "dependencies": {
+    "three": "^0.117.1"
+  }
+}
